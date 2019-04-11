@@ -1,0 +1,7 @@
+{% for movie in movies %}
+    <p>{{ movie.title }}</p>
+    <p>{{ movie.genre }}</p>
+    <p>{{ movie.duration }}</p>
+    <p>{{ movie.poster }}</p>
+    <a class="movie__button" href="{{ path('movie', {'id': movie.id}) }}">Vers la page du film</a>
+{% endfor %}

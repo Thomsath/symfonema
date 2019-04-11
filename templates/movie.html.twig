@@ -1,0 +1,18 @@
+<div>
+    <h1>Description du film</h1>
+    <h2>{{ movie.title }}</h2>
+    <span>{{ movie.genre }}</span>
+    <p>{{ movie.duration }}</p>
+    <p>{{ movie.poster }}</p>
+</div>
+<div>
+    <h1>Séances</h1>
+    {% for session in sessions %}
+        <p>{{ session.title }}</p>
+        <p>Le {{ session.date|date("d/m/Y H:i:s") }}</p>
+    {% endfor %}
+</div>
+{% if logged == 1 %}
+    <a class="booking__button" href="{{ path('book') }}">Réserver une place</a>
+{% endif %}
+
