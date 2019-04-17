@@ -31,38 +31,38 @@ class BookingController extends AbstractController
     public function mainAction(Request $request,
                                BookingRepository $bookingRepository,
                                SessionRepository $sessionRepository,
-                                RoomRepository $roomRepository
+                               RoomRepository $roomRepository
     )
     {
-        if(!$this->getUser()->getId()) {
+        if (!$this->getUser()->getId()) {
             return $this->redirectToRoute('login');
         }
         $session = $sessionRepository->findBy(['id' => htmlspecialchars($_GET['sessionId'])])[0];
         $max_places = $sessionRepository->findRoomBySession($session)[0]->getRoom()->getMaxPlaces();
         $all_booking = $bookingRepository->findRemainingPlacesBySession($session);
         $taken_places = 0;
-        foreach($all_booking as $booking) {
+        foreach ($all_booking as $booking) {
             $taken_places += $booking->getPlaces();
         }
         $err = false;
-        if($taken_places === $max_places) {
+        if ($taken_places === $max_places) {
             $err = "Plus aucune place de disponible pour cette séance";
         }
         $manager = $this->getDoctrine()->getManager();
         $booking = new Booking();
-        $form = $this->createForm(BookingType::class, $booking,[]);
+        $form = $this->createForm(BookingType::class, $booking, []);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             // Number of taken places + number of places already taken > max number of places
-            if($taken_places + $booking->getPlaces() > $max_places) {
+            if ($taken_places + $booking->getPlaces() > $max_places) {
                 $err = "Nous ne pouvons vous délivrer" . $booking->getPlaces() . " places par manque de places pour cette séance.";
-                if($taken_places + $booking->getPlaces() - $taken_places > 0) {
+                if ($taken_places + $booking->getPlaces() - $taken_places > 0) {
                     $err = "Nous ne pouvons vous délivrer" . $taken_places . "par manque de places pour cette séance.
                      Cependant, il resque " . ($max_places - $taken_places) . "places encore disponibles";
                 }
             }
-            if($taken_places + $booking->getPlaces() <= $max_places) {
+            if ($taken_places + $booking->getPlaces() <= $max_places) {
                 $booking->setSession($session);
                 $booking->setUser($this->getUser());
                 $manager->persist($booking);
@@ -102,6 +102,7 @@ class BookingController extends AbstractController
             'movie' => $movie,
         ));
     }
+
     /**
      * @Route("/book/delete/{id}", name="delete_book")
      * @param User $user

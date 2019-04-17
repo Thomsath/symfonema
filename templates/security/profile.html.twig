@@ -7,7 +7,10 @@
                     <p>Réservation du {{ session.date|date("d/m/Y H:i") }}</p>
                     <p>Salle n°{{ session.room_number }} : {{ session.room_title }}</p>
                     <p>Nombre de place(s) prise(s) : {{ session.places }}</p>
-                    <a href="{{ path('delete_book', {'id' : session.book_id }) }}">Supprimer cette réservation</a>
+                    <span class="delete">
+                        <i class="fas fa-calendar-times"></i>
+                        <a href="{{ path('delete_book', {'id' : session.book_id }) }}">Supprimer cette réservation</a>
+                    </span>
                 </div>
             {% endfor %}
         </div>

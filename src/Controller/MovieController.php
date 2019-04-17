@@ -27,21 +27,24 @@ class MovieController extends AbstractController
      * @param MovieRepository $movieRepository
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function listingMovies(Request $request, MovieRepository $movieRepository) {
+    public function listingMovies(Request $request, MovieRepository $movieRepository)
+    {
         $movies = $movieRepository->findAll();
         $sch_movies = null;
         $err = null;
         $username = null;
         $form = $this->createForm(SearchType::class);
         $form->handleRequest($request);
-        if($this->getUser()->getId()) { $username = $this->getUser()->getUsername(); }
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($this->getUser()->getId()) {
+            $username = $this->getUser()->getUsername();
+        }
+        if ($form->isSubmitted() && $form->isValid()) {
             $sch_movies = $movieRepository->findUsage($form->getData());
-            if(sizeof($sch_movies) === 0) {
+            if (sizeof($sch_movies) === 0) {
                 $err = "Aucun film n'a pu être trouvé concernant votre critère de recherche '" . $form->getData() . "'.";
             }
         }
-        return  $this->render('movies.html.twig', array(
+        return $this->render('movies.html.twig', array(
             'movies' => $movies,
             'form' => $form->createView(),
             'sch_movies' => $sch_movies,
@@ -62,14 +65,17 @@ class MovieController extends AbstractController
         $id,
         MovieRepository $movieRepository,
         SessionRepository $sessionRepository
-    ) {
+    )
+    {
         $movie = $movieRepository->findOneBy(['id' => $id]);
         $movieId = $movie->getId();
         $err = null;
         $logged = $this->getUser()->getUsername() ? 1 : 0;
         $sessions = $sessionRepository->findBy(['movie' => $movieId]);
-        if(sizeof($sessions) === 0 ) { $err = "Aucune session n'a été trouvée pour le moment."; }
-        return  $this->render('movie.html.twig', array(
+        if (sizeof($sessions) === 0) {
+            $err = "Aucune session n'a été trouvée pour le moment.";
+        }
+        return $this->render('movie.html.twig', array(
             'movie' => $movie,
             'sessions' => $sessions,
             'err' => $err,

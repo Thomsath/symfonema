@@ -19,7 +19,8 @@ class SessionRepository extends ServiceEntityRepository
         parent::__construct($registry, Session::class);
     }
 
-    public function findByDate(\Datetime $date) {
+    public function findByDate(\Datetime $date)
+    {
         $to = new \DateTime($date->format("Y-m-d H:i:s"));
         return $this->createQueryBuilder("s")
             ->andWhere("s.date > :to ")
@@ -28,12 +29,13 @@ class SessionRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findRoomBySession($sessionId) {
+    public function findRoomBySession($sessionId)
+    {
         return $this->createQueryBuilder("s")
-                    ->where("s.id = :sessionId")
-                    ->setParameter(':sessionId', $sessionId)
-                    ->getQuery()
-                    ->getResult();
+            ->where("s.id = :sessionId")
+            ->setParameter(':sessionId', $sessionId)
+            ->getQuery()
+            ->getResult();
     }
 
     // /**

@@ -23,7 +23,7 @@ class SecurityController extends AbstractController
     public function login(Request $request, AuthenticationUtils $authUtils)
     {
         $userId = $this->getUser()->getId();
-        if($userId) {
+        if ($userId) {
             return $this->redirectToRoute('movies');
         }
         // get the login error if there is one
@@ -37,33 +37,35 @@ class SecurityController extends AbstractController
             'error' => $error,
         ));
     }
-        /**
-         * @Route("/me", name="profile")
-         * @return Response
-         */
-        public function meController(SessionRepository $sessionRepository, BookingRepository $bookingRepository) {
-            $user = $this->getUser();
-            if(!$this->getUser()->getId()) {
-                return $this->redirectToRoute('login');
-            }
-            $sessions = [];
-            // ORDER BY ?
-            $booking = $bookingRepository->findBy(['user' => $user->getId()]);
-            foreach($booking as $booked) {
-                $sessionsQuery = $sessionRepository->findBy(['id' => $booked->getSession()]);
-              foreach($sessionsQuery as $session) {
-                  $sessions[$booked->getId()]['title'] = $session->getTitle();
-                  $sessions[$booked->getId()]['date'] = $session->getDate();
-                  $sessions[$booked->getId()]['movie'] = $session->getMovie()->getTitle();
-                  $sessions[$booked->getId()]['room_title'] = $session->getRoom()->getName();
-                  $sessions[$booked->getId()]['room_number'] = $session->getRoom()->getNumber();
-                  $sessions[$booked->getId()]['places'] = $booked->getPlaces();
-                  $sessions[$booked->getId()]['book_id'] = $booked->getId();
-              }
-            }
-            return $this->render('security/profile.html.twig', array(
-                'currentUser' => $user,
-                'sessions' => $sessions
-            ));
+
+    /**
+     * @Route("/me", name="profile")
+     * @return Response
+     */
+    public function meController(SessionRepository $sessionRepository, BookingRepository $bookingRepository)
+    {
+        $user = $this->getUser();
+        if (!$this->getUser()->getId()) {
+            return $this->redirectToRoute('login');
         }
+        $sessions = [];
+        // ORDER BY ?
+        $booking = $bookingRepository->findBy(['user' => $user->getId()]);
+        foreach ($booking as $booked) {
+            $sessionsQuery = $sessionRepository->findBy(['id' => $booked->getSession()]);
+            foreach ($sessionsQuery as $session) {
+                $sessions[$booked->getId()]['title'] = $session->getTitle();
+                $sessions[$booked->getId()]['date'] = $session->getDate();
+                $sessions[$booked->getId()]['movie'] = $session->getMovie()->getTitle();
+                $sessions[$booked->getId()]['room_title'] = $session->getRoom()->getName();
+                $sessions[$booked->getId()]['room_number'] = $session->getRoom()->getNumber();
+                $sessions[$booked->getId()]['places'] = $booked->getPlaces();
+                $sessions[$booked->getId()]['book_id'] = $booked->getId();
+            }
+        }
+        return $this->render('security/profile.html.twig', array(
+            'currentUser' => $user,
+            'sessions' => $sessions
+        ));
+    }
 }

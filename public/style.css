@@ -42,3 +42,6 @@ body, html {
     padding: 0px 9px 9px 9px;
     border-radius: 2px;
 }
+.delete {
+    color: #E96769 !important;
+}
