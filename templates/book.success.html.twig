@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <h2 class="success-booking"><i class="fas fa-check"></i> Votre réservation a bien été prise en compte ! </h2>
+    <h3>Récapitulatif de votre réservation</h3>
+    <p>Film : {{ movie.title }}</p>
+    <p>Date de la scéance : {{ session.date|date("d/m/Y H:i") }}</p>
+    <p>Nombre de places réservées : {{ booking.places }} places</p>
+    <a href="{{ path('movies') }}">Revenir à l'accueil </a>
+
+{% endblock %}

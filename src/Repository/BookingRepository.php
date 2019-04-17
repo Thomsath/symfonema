@@ -26,6 +26,15 @@ class BookingRepository extends ServiceEntityRepository
                 ->getResult();
     }
 
+    public function findBookingBySessionIdAndUserId($sessionId, $userId) {
+        return $this->createQueryBuilder('b')
+            ->andWhere('b.session = :sessionId')
+            ->andWhere('b.user = :userId')
+            ->setParameter('sessionId', $sessionId)
+            ->setParameter('sessionId', $userId)
+            ->getQuery()
+            ->getResult();
+    }
     public function deleteBookingById($id) {
         return $this->createQueryBuilder('b')
                     ->delete(Booking::class, 'b')

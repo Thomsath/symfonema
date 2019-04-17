@@ -53,6 +53,11 @@ class Movie
      */
     private $synopsis;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $producer;
+
     public function __construct()
     {
         $this->sessions = new ArrayCollection();
@@ -68,7 +73,8 @@ class Movie
         return $this->title;
     }
 
-    public function __toString(){
+    public function __toString(): ?string
+    {
         return $this->title;
     }
     public function setTitle(string $Title): self
@@ -165,6 +171,18 @@ class Movie
                 $session->setMovie(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getProducer(): ?string
+    {
+        return $this->producer;
+    }
+
+    public function setProducer(string $producer): self
+    {
+        $this->producer = $producer;
 
         return $this;
     }

@@ -7,9 +7,13 @@
  */
 
 namespace App\Controller;
+
+use App\Entity\Movie;
 use App\Repository\MovieRepository;
 use App\Entity\User;
 use App\Repository\SessionRepository;
+use Symfony\Component\Form\Extension\Core\Type\SearchType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -19,12 +23,30 @@ class MovieController extends AbstractController
 {
     /**
      * @Route("/movies", name="movies")
+     * @param Request $request
      * @param MovieRepository $movieRepository
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function listingMovies(MovieRepository $movieRepository) {
+    public function listingMovies(Request $request, MovieRepository $movieRepository) {
         $movies = $movieRepository->findAll();
+        $sch_movies = null;
+        $err = null;
+        $username = null;
+        $form = $this->createForm(SearchType::class);
+        $form->handleRequest($request);
+        if($this->getUser()->getId()) { $username = $this->getUser()->getUsername(); }
+        if($form->isSubmitted() && $form->isValid()) {
+            $sch_movies = $movieRepository->findUsage($form->getData());
+            if(sizeof($sch_movies) === 0) {
+                $err = "Aucun film n'a pu être trouvé concernant votre critère de recherche '" . $form->getData() . "'.";
+            }
+        }
         return  $this->render('movies.html.twig', array(
-            'movies' => $movies
+            'movies' => $movies,
+            'form' => $form->createView(),
+            'sch_movies' => $sch_movies,
+            'err' => $err,
+            'username' => $username
         ));
     }
 
@@ -39,18 +61,20 @@ class MovieController extends AbstractController
     public function displayMovie(
         $id,
         MovieRepository $movieRepository,
-        SessionRepository $sessionRepository,
-        User $user
+        SessionRepository $sessionRepository
     ) {
         $movie = $movieRepository->findOneBy(['id' => $id]);
         $movieId = $movie->getId();
-        $logged = $user->getUsername() ? 1 : 0;
+        $err = null;
+        $logged = $this->getUser()->getUsername() ? 1 : 0;
         $sessions = $sessionRepository->findBy(['movie' => $movieId]);
+        if(sizeof($sessions) === 0 ) { $err = "Aucune session n'a été trouvée pour le moment."; }
         return  $this->render('movie.html.twig', array(
             'movie' => $movie,
             'sessions' => $sessions,
+            'err' => $err,
             'logged' => $logged,
-            'userId' => $user->getId()
+            'userId' => $this->getUser()->getId()
         ));
     }
 

@@ -1,19 +1,28 @@
-
-{% if logged == 1 %}
-    <div>
-    <h1>Description du film</h1>
-    <h2>{{ movie.title }}</h2>
-    <span>{{ movie.genre }}</span>
-    <p>{{ movie.duration }}</p>
-    <p>{{ movie.poster }}</p>
-</div>
-<div>
-    <h1>Séances</h1>
-    {% for session in sessions %}
-        <p>{{ session.title }}</p>
-        <p>Le {{ session.date|date("d/m/Y H:i:s") }}</p>
-        <a class="booking__button" href="{{ path('book', { 'userId': userId, 'sessionId': session.id, 'movieId': movie.id }) }}">Réserver une place</a>
-    {% endfor %}
-</div>
-{% endif %}
+{% extends 'base.html.twig' %}
+    {% block body %}
+        {% if logged == 1 %}
+            <div>
+                <h1>Description du film</h1>
+                <h2>{{ movie.title }}</h2>
+                <span>{{ movie.genre }}</span>
+                <p>{{ movie.duration }}</p>
+                <p>{{ movie.poster }}</p>
+                <p>{{ movie.synopsis }}</p>
+                <p>{{ movie.producer }}</p>
+            </div>
+            <div>
+                <h1>Séances</h1>
+                {% if err != null %}
+                    <span>{{ err }}</span>
+                {% endif %}
+                {% for session in sessions %}
+                    <p>{{ session.title }}</p>
+                    <p>Le {{ session.date|date("d/m/Y H:i:s") }}</p>
+                    <a class="booking__button"
+                       href="{{ path('book', { 'userId': userId, 'sessionId': session.id, 'movieId': movie.id }) }}">Réserver
+                        une place</a>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endblock %}
 

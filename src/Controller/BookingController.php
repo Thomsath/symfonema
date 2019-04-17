@@ -12,6 +12,7 @@ use App\Entity\Booking;
 use App\Entity\User;
 use App\Form\BookingType;
 use App\Repository\BookingRepository;
+use App\Repository\MovieRepository;
 use App\Repository\RoomRepository;
 use App\Repository\SessionRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -66,7 +67,9 @@ class BookingController extends AbstractController
                 $booking->setUser($this->getUser());
                 $manager->persist($booking);
                 $manager->flush();
-                return $this->redirectToRoute('homepage');
+                return $this->redirectToRoute('success_book', [
+                    'id' => $booking->getId()
+                ]);
             }
         }
         return $this->render('book.html.twig', array(
@@ -75,6 +78,28 @@ class BookingController extends AbstractController
             'taken_places' => $taken_places,
             'max_places' => $max_places,
             'remaining_places' => $max_places - $taken_places
+        ));
+    }
+
+    /**
+     * @Route("/book/success/{id}", name="success_book")
+     * @param $id
+     * @param SessionRepository $sessionRepository
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function successAction($id, SessionRepository $sessionRepository,
+                                  BookingRepository $bookingRepository, MovieRepository $movieRepository)
+    {
+        // Récupération nb places
+        $booking = $bookingRepository->findBy(['id' => $id])[0];
+        // Récupération film, date & heure, salle,
+        $session = $sessionRepository->findBy(['id' => $booking->getSession()->getId()])[0];
+        $movie = $movieRepository->findBy(['id' => $session->getMovie()])[0];
+
+        return $this->render('book.success.html.twig', array(
+            'session' => $session,
+            'booking' => $booking,
+            'movie' => $movie,
         ));
     }
     /**

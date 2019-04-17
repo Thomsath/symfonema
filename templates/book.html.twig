@@ -1,7 +1,10 @@
-{{ form_start(form) }}
-<p>Places déjà prises : {{ taken_places }}</p>
-<p>Nombre max de places disponibles : {{ max_places }}</p>
-<p>Nombre de places encore disponibles : {{ remaining_places }}</p>
-{{ err }}
-    {{ form_widget(form) }}
-{{ form_end(form) }}
+{% extends 'base.html.twig' %}
+{% block body %}
+    {{ form_start(form) }}
+    <p>Places déjà prises : {{ taken_places }}</p>
+    <p>Nombre max de places disponibles : {{ max_places }}</p>
+    <p>Nombre de places encore disponibles : {{ remaining_places }}</p>
+    {{ err }}
+        {{ form_widget(form) }}
+    {{ form_end(form) }}
+{% endblock %}
