@@ -21,12 +21,19 @@ class SessionRepository extends ServiceEntityRepository
 
     public function findByDate(\Datetime $date) {
         $to = new \DateTime($date->format("Y-m-d H:i:s"));
-        $qb = $this->createQueryBuilder("e")
-            ->andWhere("e.date > :to ")
-            ->setParameter(':to', $to);
+        return $this->createQueryBuilder("s")
+            ->andWhere("s.date > :to ")
+            ->setParameter(':to', $to)
+            ->getQuery()
+            ->getResult();
+    }
 
-        return $qb->getQuery()->getResult();
-
+    public function findRoomBySession($sessionId) {
+        return $this->createQueryBuilder("s")
+                    ->where("s.id = :sessionId")
+                    ->setParameter(':sessionId', $sessionId)
+                    ->getQuery()
+                    ->getResult();
     }
 
     // /**
