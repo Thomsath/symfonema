@@ -25,8 +25,11 @@ class RegistrationController extends AbstractController
      */
     public function registerAction(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
+        $userId = $this->getUser()->getId();
+        if($userId) {
+            return $this->redirectToRoute('movies');
+        }
         $user = new User();
-
         $form = $this->createForm(UserType::class, $user,[
             'validation_groups' => array('User', 'registration'),
         ]);
