@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Repository;
-
 use App\Entity\Booking;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -19,6 +18,22 @@ class BookingRepository extends ServiceEntityRepository
         parent::__construct($registry, Booking::class);
     }
 
+    public function findRemainingPlacesBySession($sessionId) {
+        return $this->createQueryBuilder('b')
+                ->andWhere('b.session = :sessionId')
+                ->setParameter('sessionId', $sessionId)
+                ->getQuery()
+                ->getResult();
+    }
+
+    public function deleteBookingById($id) {
+        return $this->createQueryBuilder('b')
+                    ->delete(Booking::class, 'b')
+                    ->andWhere('b.id = :id')
+                    ->setParameter('id', $id)
+                    ->getQuery()
+                    ->getResult();
+    }
     // /**
     //  * @return Booking[] Returns an array of Booking objects
     //  */

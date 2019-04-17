@@ -27,6 +27,11 @@ class Booking
      */
     private $user;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $places;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -52,6 +57,18 @@ class Booking
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getPlaces(): ?int
+    {
+        return $this->places;
+    }
+
+    public function setPlaces(int $places): self
+    {
+        $this->places = $places;
 
         return $this;
     }
