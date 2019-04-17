@@ -18,6 +18,11 @@ class MovieRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Movie::class);
     }
+    
+//    public function findAllOrderByReleaseDate() {
+//        return $this->createQueryBuilder('m')
+//                    ->orderBy('')
+//    }
 
     // /**
     //  * @return Movie[] Returns an array of Movie objects

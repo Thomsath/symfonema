@@ -1,4 +1,6 @@
-<div>
+
+{% if logged == 1 %}
+    <div>
     <h1>Description du film</h1>
     <h2>{{ movie.title }}</h2>
     <span>{{ movie.genre }}</span>
@@ -10,9 +12,8 @@
     {% for session in sessions %}
         <p>{{ session.title }}</p>
         <p>Le {{ session.date|date("d/m/Y H:i:s") }}</p>
+        <a class="booking__button" href="{{ path('book', { 'userId': userId, 'sessionId': session.id, 'movieId': movie.id }) }}">Réserver une place</a>
     {% endfor %}
 </div>
-{% if logged == 1 %}
-    <a class="booking__button" href="{{ path('book') }}">Réserver une place</a>
 {% endif %}
 

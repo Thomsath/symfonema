@@ -33,6 +33,7 @@ class MovieController extends AbstractController
      * @param $id
      * @param MovieRepository $movieRepository
      * @param SessionRepository $sessionRepository
+     * @param User $user
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function displayMovie(
@@ -48,7 +49,8 @@ class MovieController extends AbstractController
         return  $this->render('movie.html.twig', array(
             'movie' => $movie,
             'sessions' => $sessions,
-            'logged' => $logged
+            'logged' => $logged,
+            'userId' => $user->getId()
         ));
     }
 
