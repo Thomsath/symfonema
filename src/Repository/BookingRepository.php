@@ -27,7 +27,6 @@ class BookingRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-
     public function findBookingBySessionIdAndUserId($sessionId, $userId)
     {
         return $this->createQueryBuilder('b')

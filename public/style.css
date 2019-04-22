@@ -25,13 +25,29 @@ body, html {
 #search_render {
     background-color: green;
 }
+.search_submit:after {
+    content: '\f002';
+    color: red;
+    height: 50px;
+    width: 50px;
+}
+
+.search_err {
+    background-color: #DA4C4B;
+    padding: 5px;
+    position: relative;
+    top: 12px;
+    color: white;
+    box-shadow: 1px 0px 1px #00000017;
+}
 
 .container {
-    padding: 5px;
+    padding: 20px;
+    background-color: #dedfe3;
 }
 
 /* LISTING MOVIES */
-.movies, .sessions {
+.movies, .sessions, .sessions_old {
     display: flex;
 }
 .movie, .session {
@@ -44,4 +60,15 @@ body, html {
 }
 .delete {
     color: #E96769 !important;
+}
+input#search {
+    border: 1px solid #989898;
+    border-radius: 8px;
+}
+.movie__button {
+    background-color: #ed445d;
+    color: white !important;
+    padding: 5px 20px 5px 20px;
+    text-decoration: none;
+    font-weight: 500;
 }

@@ -49,6 +49,11 @@ class Booking
         return $this;
     }
 
+    public function __toString(): ?string
+    {
+        return $this->getId();
+    }
+
     public function getUser(): ?User
     {
         return $this->user;
