@@ -40,6 +40,8 @@ class SecurityController extends AbstractController
 
     /**
      * @Route("/me", name="profile")
+     * @param SessionRepository $sessionRepository
+     * @param BookingRepository $bookingRepository
      * @return Response
      */
     public function meController(SessionRepository $sessionRepository, BookingRepository $bookingRepository)
@@ -49,11 +51,13 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('login');
         }
         $sessions = [];
-        // ORDER BY ?
+
         $booking = $bookingRepository->findBy(['user' => $user->getId()]);
         foreach ($booking as $booked) {
             $sessionsQuery = $sessionRepository->findBy(['id' => $booked->getSession()]);
             foreach ($sessionsQuery as $session) {
+                $now = new \DateTime();
+               // negative => not yet passed
                 $sessions[$booked->getId()]['title'] = $session->getTitle();
                 $sessions[$booked->getId()]['date'] = $session->getDate();
                 $sessions[$booked->getId()]['movie'] = $session->getMovie()->getTitle();
@@ -61,6 +65,12 @@ class SecurityController extends AbstractController
                 $sessions[$booked->getId()]['room_number'] = $session->getRoom()->getNumber();
                 $sessions[$booked->getId()]['places'] = $booked->getPlaces();
                 $sessions[$booked->getId()]['book_id'] = $booked->getId();
+                // session not yet passed
+                if ($now < $session->getDate()) {
+                    $sessions[$booked->getId()]['seen'] = false;
+                } else {
+                    $sessions[$booked->getId()]['seen'] = true;
+                }
             }
         }
         return $this->render('security/profile.html.twig', array(

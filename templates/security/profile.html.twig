@@ -1,17 +1,51 @@
 {% extends 'base.html.twig' %}
     {% block body %}
-        <h2>Vos réservations</h2>
-        <div class="sessions">
-            {% for session in sessions %}
-                <div class="session">
-                    <p>Réservation du {{ session.date|date("d/m/Y H:i") }}</p>
-                    <p>Salle n°{{ session.room_number }} : {{ session.room_title }}</p>
-                    <p>Nombre de place(s) prise(s) : {{ session.places }}</p>
-                    <span class="delete">
-                        <i class="fas fa-calendar-times"></i>
-                        <a href="{{ path('delete_book', {'id' : session.book_id }) }}">Supprimer cette réservation</a>
-                    </span>
+        <div class="container">
+        {% set i_seen = 0 %}
+        {% set i_nseen = 0 %}
+        <h2>Profil de {{ currentUser }}</h2>
+        {% for session in sessions %}
+            {% if session.seen == false %}
+            {% if i_nseen == 0 %}
+                <h2>Vos réservations</h2>
+                <div class="sessions">
+                    {% set i_nseen = 1 %}
+                    {% endif %}
+
+                        <div class="session">
+                            <p>Film pas encore vu</p>
+                            <p>Réservation du {{ session.date|date("d/m/Y H:i") }}</p>
+                            <p>Film : {{ session.movie }}</p>
+                            <p>Salle n°{{ session.room_number }} : {{ session.room_title }}</p>
+                            <p>Nombre de place(s) prise(s) : {{ session.places }}</p>
+                            <span class="delete">
+                                <i class="fas fa-calendar-times"></i>
+                                <a href="{{ path('delete_book', {'id' : session.book_id }) }}">Supprimer cette réservation</a>
+                            </span>
+
+                        </div>
+                        {% endif %}
+                    {% endfor %}
                 </div>
-            {% endfor %}
+                {% for session in sessions %}
+                    {% if session.seen == true %}
+                    {% if i_seen == 0 %}
+                        <h2>Vous avez déjà vu</h2>
+                        <div class="sessions_old">
+                    {% set i_seen = 1 %}
+                    {% endif %}
+                        <div class="session">
+                            <p>Réservation du {{ session.date|date("d/m/Y H:i") }}</p>
+                            <p>Film : {{ session.movie }}</p>
+                            <p>Salle n°{{ session.room_number }} : {{ session.room_title }}</p>
+                            <p>Nombre de place(s) prise(s) : {{ session.places }}</p>
+                            <span class="delete">
+                            <i class="fas fa-calendar-times"></i>
+                            <a href="{{ path('delete_book', {'id' : session.book_id }) }}">Supprimer cette réservation</a>
+                        </span>
+                        </div>
+                        {% endif %}
+                {% endfor %}
+            </div>
         </div>
     {% endblock %}
