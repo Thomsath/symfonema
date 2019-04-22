@@ -8,10 +8,10 @@
         <h2>TOUS LES FILMS</h2>
         {{ form_start(form) }}
         {{ form_widget(form) }}
-        <input type="submit" value="Envoyer"/>
+        <input type="submit" value="Envoyer" class="search_submit"/>
         {{ form_end(form) }}
         {% if err != null %}
-            <span>{{ err }}</span>
+            <span class="search_err"><i class="fas fa-times"></i> {{ err }}</span>
         {% endif %}
         {% if sch_movies != null %}
             <div id="search_render">
@@ -19,7 +19,7 @@
                     <p>{{ sch_movie.title }}</p>
                     <p>{{ sch_movie.genre }}</p>
                     <p>{{ sch_movie.duration }}</p>
-                    <p>{{ sch_movie.poster }}</p>
+                    <p>{{ sch_movie.image }}</p>
                     <p>{{ sch_movie.releaseDate|date("d/m/Y H:i") }}</p>
                     <a class="movie__button" href="{{ path('movie', {'id': sch_movie.id}) }}">Vers la page du film</a>
                 {% endfor %}
@@ -29,10 +29,10 @@
             {% for movie in movies %}
                 <div class="movie">
                     <p>{{ movie.title }}</p>
-                    <p>{{ movie.poster }}</p>
+                    {#<p>{{ movie.image }}</p>#}
                     <p>De {{ movie.producer }}</p>
-                    <p>{{ movie.releaseDate|date("d/m/Y H:i") }}</p>
-                    <a class="movie__button" href="{{ path('movie', {'id': movie.id}) }}">Vers la page du film</a>
+                    {#<p>{{ movie.releaseDate|date("d/m/Y H:i") }}</p>#}
+                    <a class="movie__button" href="{{ path('movie', {'id': movie.id}) }}">EN SAVOIR +</a>
                 </div>
             {% endfor %}
         </div>

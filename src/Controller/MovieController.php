@@ -71,7 +71,7 @@ class MovieController extends AbstractController
         $movieId = $movie->getId();
         $err = null;
         $logged = $this->getUser()->getUsername() ? 1 : 0;
-        $sessions = $sessionRepository->findBy(['movie' => $movieId]);
+        $sessions = $sessionRepository->findByDate(new \DateTime(), $movieId);
         if (sizeof($sessions) === 0) {
             $err = "Aucune session n'a été trouvée pour le moment.";
         }
