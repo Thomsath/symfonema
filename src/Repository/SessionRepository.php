@@ -19,12 +19,14 @@ class SessionRepository extends ServiceEntityRepository
         parent::__construct($registry, Session::class);
     }
 
-    public function findByDate(\Datetime $date)
+    public function findByDate(\Datetime $date, $movie)
     {
         $to = new \DateTime($date->format("Y-m-d H:i:s"));
         return $this->createQueryBuilder("s")
-            ->andWhere("s.date > :to ")
+            ->where("s.date > :to ")
+            ->andWhere("s.movie = :movie")
             ->setParameter(':to', $to)
+            ->setParameter('movie', $movie)
             ->getQuery()
             ->getResult();
     }

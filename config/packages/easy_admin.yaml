@@ -1,13 +1,23 @@
-#easy_admin:
-#    entities:
+easy_admin:
+    entities:
+      - App\Entity\User
+      - App\Entity\Movie
+      - App\Entity\Room
+      - App\Entity\Session
+      - App\Entity\Booking
 #        # List the entity class name you want to manage
 #        - App\Entity\Product
 #        - App\Entity\Category
 #        - App\Entity\User
-easy_admin:
-  entities:
-  - App\Entity\User
-  - App\Entity\Movie
-  - App\Entity\Room
-  - App\Entity\Session
-  - App\Entity\Booking
+#easy_admin:
+#  entities:
+#    Movie:
+#      list:
+#        fields:
+#        - { property: 'image', type: 'image', base_path: '%app.path.movie_images%' }
+#      show:
+#        fields:
+#        - { property: 'image', type: 'image', base_path: '%app.path.movie_images%' }
+#      form:
+#        fields:
+#        - { property: 'imageFile', type: 'vich_image' }

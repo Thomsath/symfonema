@@ -1,0 +1,15 @@
+vich_uploader:
+  db_driver: orm
+  mappings:
+    movie_images:
+      uri_prefix:         '%app.path.movie_images%'
+      upload_destination: '%kernel.project_dir%/public%app.path.movie_images%'
+
+#  mappings:
+#    movie_image:
+#      uri_prefix: /images/movie
+#      upload_destination: '%kernel.project_dir%/public/images/movie'
+#
+#      inject_on_load: false
+#      delete_on_update: true
+#      delete_on_remove: true
