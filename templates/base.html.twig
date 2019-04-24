@@ -14,7 +14,12 @@
 {% block sidebar %}
     <ul class="menu">
     <li><a href="{{ path('movies') }}">Les films</a></li>
-    <li><a href="{{ path('profile') }}">Mes réservations</a></li>
+    {% if currentUserId != null %}
+        <li><a href="{{ path('profile') }}">Mon profil</a></li>
+        <li><a href="{{ path('logout') }}">Se déconnecter</a></li>
+    {% else %}
+        <li><a href="{{ path('login') }}">Se connecter</a></li>
+    {% endif %}
     </ul>{% endblock %}
 {% block body %}{% endblock %}
 {% block javascripts %}{% endblock %}
