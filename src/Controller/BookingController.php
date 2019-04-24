@@ -90,6 +90,9 @@ class BookingController extends AbstractController
     public function successAction($id, SessionRepository $sessionRepository,
                                   BookingRepository $bookingRepository, MovieRepository $movieRepository)
     {
+        if($this->getUser() === null) {
+            return $this->redirectToRoute('login');
+        }
         // Récupération nb places
         $booking = $bookingRepository->findBy(['id' => $id])[0];
         // Récupération film, date & heure, salle,
@@ -100,6 +103,7 @@ class BookingController extends AbstractController
             'session' => $session,
             'booking' => $booking,
             'movie' => $movie,
+            'currentUserId' => $this->getUser()->getId()
         ));
     }
 

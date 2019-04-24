@@ -22,10 +22,11 @@ class SecurityController extends AbstractController
      */
     public function login(Request $request, AuthenticationUtils $authUtils)
     {
-        $userId = $this->getUser()->getId();
-        if ($userId) {
+
+        if ($this->getUser() !== null ) {
             return $this->redirectToRoute('movies');
         }
+        $currentUserId  = null;
         // get the login error if there is one
         $error = $authUtils->getLastAuthenticationError();
 
@@ -35,6 +36,7 @@ class SecurityController extends AbstractController
         return $this->render('security/login.html.twig', array(
             'last_username' => $lastUsername,
             'error' => $error,
+            'currentUserId' => $currentUserId
         ));
     }
 
@@ -47,7 +49,7 @@ class SecurityController extends AbstractController
     public function meController(SessionRepository $sessionRepository, BookingRepository $bookingRepository)
     {
         $user = $this->getUser();
-        if (!$this->getUser()->getId()) {
+        if ($user === null) {
             return $this->redirectToRoute('login');
         }
         $sessions = [];
@@ -75,7 +77,8 @@ class SecurityController extends AbstractController
         }
         return $this->render('security/profile.html.twig', array(
             'currentUser' => $user,
-            'sessions' => $sessions
+            'sessions' => $sessions,
+            'currentUserId' => $this->getUser()->getId()
         ));
     }
 }

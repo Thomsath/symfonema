@@ -22,7 +22,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class MovieController extends AbstractController
 {
     /**
-     * @Route("/movies", name="movies")
+     * @Route("/", name="movies")
      * @param Request $request
      * @param MovieRepository $movieRepository
      * @return \Symfony\Component\HttpFoundation\Response
@@ -33,10 +33,12 @@ class MovieController extends AbstractController
         $sch_movies = null;
         $err = null;
         $username = null;
+        $currentUserId = null;
         $form = $this->createForm(SearchType::class);
         $form->handleRequest($request);
-        if ($this->getUser()->getId()) {
+        if ($this->getUser() !== null) {
             $username = $this->getUser()->getUsername();
+            $currentUserId = true;
         }
         if ($form->isSubmitted() && $form->isValid()) {
             $sch_movies = $movieRepository->findUsage($form->getData());
@@ -49,7 +51,8 @@ class MovieController extends AbstractController
             'form' => $form->createView(),
             'sch_movies' => $sch_movies,
             'err' => $err,
-            'username' => $username
+            'username' => $username,
+            'currentUserId' => $currentUserId
         ));
     }
 
@@ -69,8 +72,10 @@ class MovieController extends AbstractController
     {
         $movie = $movieRepository->findOneBy(['id' => $id]);
         $movieId = $movie->getId();
-        $err = null;
-        $logged = $this->getUser()->getUsername() ? 1 : 0;
+        $err = null; $currentUserId = null;
+        if($this->getUser() !== null) {
+            $currentUserId = $this->getUser()->getId();
+        }
         $sessions = $sessionRepository->findByDate(new \DateTime(), $movieId);
         if (sizeof($sessions) === 0) {
             $err = "Aucune session n'a été trouvée pour le moment.";
@@ -79,8 +84,7 @@ class MovieController extends AbstractController
             'movie' => $movie,
             'sessions' => $sessions,
             'err' => $err,
-            'logged' => $logged,
-            'userId' => $this->getUser()->getId()
+            'currentUserId' => $currentUserId
         ));
     }
 

@@ -25,8 +25,7 @@ class RegistrationController extends AbstractController
      */
     public function registerAction(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
-        $userId = $this->getUser()->getId();
-        if ($userId) {
+        if ($this->getUser() !== null) {
             return $this->redirectToRoute('movies');
         }
         $user = new User();
