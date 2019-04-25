@@ -33,4 +33,4 @@ security:
                 csrf_token_generator: security.csrf.token_manager
 
     access_control:
-    - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/admin, roles: ROLE_ADMIN }
