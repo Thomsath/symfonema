@@ -95,9 +95,7 @@ class BookingController extends AbstractController
         if($this->getUser() === null) {
             return $this->redirectToRoute('login');
         }
-        // Récupération nb places
         $booking = $bookingRepository->findBy(['id' => $id])[0];
-        // Récupération film, date & heure, salle,
         $session = $sessionRepository->findBy(['id' => $booking->getSession()->getId()])[0];
         $movie = $movieRepository->findBy(['id' => $session->getMovie()])[0];
 

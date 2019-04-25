@@ -30,10 +30,7 @@ class MovieController extends AbstractController
     public function listingMovies(Request $request, MovieRepository $movieRepository)
     {
         $movies = $movieRepository->findAll();
-        $sch_movies = null;
-        $err = null;
-        $username = null;
-        $currentUserId = null;
+        $sch_movies = null; $err = null; $username = null; $currentUserId = null;
         $form = $this->createForm(SearchType::class);
         $form->handleRequest($request);
         if ($this->getUser() !== null) {

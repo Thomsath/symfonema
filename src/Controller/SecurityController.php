@@ -53,7 +53,6 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('login');
         }
         $sessions = [];
-
         $booking = $bookingRepository->findBy(['user' => $user->getId()]);
         foreach ($booking as $booked) {
             $sessionsQuery = $sessionRepository->findBy(['id' => $booked->getSession()]);
