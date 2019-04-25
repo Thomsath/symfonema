@@ -24,6 +24,7 @@
                         {% endif %}
                     {% endfor %}
                 </div>
+            {% set total_min = 0 %}
                 {% for session in sessions %}
                     {% if session.seen == true %}
                     {% if i_seen == 0 %}
@@ -36,6 +37,7 @@
                             <p>{{ session.movie }}</p>
                             <p>Salle n°{{ session.room_number }} : {{ session.room_title }}</p>
                             <p>Nombre de place(s) prise(s) : {{ session.places }}</p>
+                            {% set total_min = total_min + session.duratio %}
                         </div>
                         {% endif %}
                 {% endfor %}
