@@ -7,7 +7,7 @@
                 <h2>{{ movie.title }}</h2>
                 <span>{{ movie.genre }}</span>
                 <p>{{ duration|number_format(2, 'h') }}</p>
-                <p>{{ movie.image }}</p>
+                <img src="{{ movie.image }}" />
                 <p>{{ movie.synopsis }}</p>
                 <p>{{ movie.producer }}</p>
             </div>

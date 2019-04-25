@@ -20,7 +20,7 @@
                     <p>{{ sch_movie.title }}</p>
                     <p>{{ sch_movie.genre }}</p>
                     <p>Durée: {{ duration|number_format(2, 'h') }}</p>
-                    <p>{{ sch_movie.image }}</p>
+                    <img src="{{ sch_movie.image }}" />
                     <p>{{ sch_movie.releaseDate|date("d/m/Y H:i") }}</p>
                     <a class="movie__button" href="{{ path('movie', {'id': sch_movie.id}) }}">Vers la page du film</a>
                 {% endfor %}
