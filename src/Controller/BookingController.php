@@ -116,7 +116,11 @@ class BookingController extends AbstractController
      */
     public function deleteAction($id, Request $request, BookingRepository $bookingRepository)
     {
-        $bookingRepository->deleteBookingById($id);
-        return $this->redirectToRoute('profile');
+        if($id != $this->getUser()->getId()) {
+            return $this->redirectToRoute('movies');
+        } else {
+            $bookingRepository->deleteBookingById($id);
+            return $this->redirectToRoute('profile');
+        }
     }
 }
