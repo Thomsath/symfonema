@@ -109,6 +109,11 @@ class Movie
         return $this->updatedAt;
     }
 
+    public function setUpdatedAt($updatedAt): ?\DateTime
+    {
+        return $this->updatedAt = $updatedAt;
+    }
+
     public function getImageFile(): ?File
     {
         return $this->imageFile;

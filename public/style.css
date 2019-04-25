@@ -26,10 +26,6 @@ body, html {
     text-decoration: none;
     list-style: none;
 }
-
-#search_render {
-    background-color: green;
-}
 .search_submit:after {
     content: '\f002';
     color: red;

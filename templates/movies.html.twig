@@ -16,14 +16,16 @@
         {% if sch_movies != null %}
             <div id="search_render">
                 {% for sch_movie in sch_movies %}
+                    {% set duration = sch_movie.duration / 60 %}
                     <p>{{ sch_movie.title }}</p>
                     <p>{{ sch_movie.genre }}</p>
-                    <p>{{ sch_movie.duration }}</p>
+                    <p>Durée: {{ duration|number_format(2, 'h') }}</p>
                     <p>{{ sch_movie.image }}</p>
                     <p>{{ sch_movie.releaseDate|date("d/m/Y H:i") }}</p>
                     <a class="movie__button" href="{{ path('movie', {'id': sch_movie.id}) }}">Vers la page du film</a>
                 {% endfor %}
             </div>
+            <hr>
         {% endif %}
         <div class="movies">
             {% for movie in movies %}

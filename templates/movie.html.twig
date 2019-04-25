@@ -1,11 +1,12 @@
 {% extends 'base.html.twig' %}
     {% block body %}
-
+        <div class="container">
             <div>
+                {% set duration = movie.duration / 60 %}
                 <h1>Description du film</h1>
                 <h2>{{ movie.title }}</h2>
                 <span>{{ movie.genre }}</span>
-                <p>{{ movie.duration }}</p>
+                <p>{{ duration|number_format(2, 'h') }}</p>
                 <p>{{ movie.image }}</p>
                 <p>{{ movie.synopsis }}</p>
                 <p>{{ movie.producer }}</p>
@@ -22,7 +23,7 @@
                         <p>Le {{ session.date|date("d/m/Y H:i:s") }}</p>
 
                         <a class="booking__button"
-                           href="{{ path('book', { 'userId': currentUserId, 'sessionId': session.id,
+                           href="{{ path('book', { 'sessionId': session.id,
                                'movieId': movie.id }) }}">Réserver
                             une place</a>
                     {% endfor %}
@@ -30,5 +31,6 @@
                     <p><a href="{{ path('login') }}">Conectez-vous</a> pour voir les séances disponibles !</p>
                 {% endif %}
             </div>
+        </div>
     {% endblock %}
 

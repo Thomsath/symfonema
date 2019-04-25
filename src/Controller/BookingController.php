@@ -37,7 +37,8 @@ class BookingController extends AbstractController
         if (!$this->getUser()->getId()) {
             return $this->redirectToRoute('login');
         }
-        $session = $sessionRepository->findBy(['id' => htmlspecialchars($_GET['sessionId'])])[0];
+        $currentUserId = $this->getUser()->getId();
+        $session = $sessionRepository->findBy(['id' =>$request->query->get('sessionId')])[0];
         $max_places = $sessionRepository->findRoomBySession($session)[0]->getRoom()->getMaxPlaces();
         $all_booking = $bookingRepository->findRemainingPlacesBySession($session);
         $taken_places = 0;
@@ -77,7 +78,8 @@ class BookingController extends AbstractController
             'err' => $err,
             'taken_places' => $taken_places,
             'max_places' => $max_places,
-            'remaining_places' => $max_places - $taken_places
+            'remaining_places' => $max_places - $taken_places,
+            'currentUserId' => $currentUserId
         ));
     }
 

@@ -25,6 +25,7 @@ class RegistrationController extends AbstractController
      */
     public function registerAction(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
+        $currentUserId = null;
         if ($this->getUser() !== null) {
             return $this->redirectToRoute('movies');
         }
@@ -34,22 +35,21 @@ class RegistrationController extends AbstractController
         ]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-
-            // Encode le mot de passe
             $password = $passwordEncoder->encodePassword($user, $user->getPassword());
             $user->setPassword($password);
-
             // Enregistre le membre en base
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
 
-            return $this->redirectToRoute('homepage');
+            return $this->redirectToRoute('movies');
         }
 
         return $this->render(
-            'security/registration.html.twig',
-            array('form' => $form->createView())
+            'security/registration.html.twig', array(
+                'form' => $form->createView(),
+                'currentUserId' => $currentUserId
+            )
         );
     }
 }
