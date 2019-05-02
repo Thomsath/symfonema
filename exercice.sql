@@ -73,4 +73,4 @@ LIKE 'l%';
 	-- D/ FULL JOIN
 		SELECT *
 		FROM `session`
-		FULL JOIN `movie` ON `movie_id` = `movie`.`id`;
+		FULL JOIN `movie` ON `session`.`movie_id` = `movie`.`id`;
