@@ -5,9 +5,9 @@ VALUES (NULL, 'titre', '2019-05-01 00:00:00', 'Aventure', '145', 'synopsis', 'pr
 -- 2/ récupérer tous les noms de films
 SELECT `title` FROM `movie`;
 
--- 3/  récupérer les utilisateurs sans doublons ?????
+-- 3/  récupérer les utilisateurs sans doublons 
 SELECT DISTINCT `username` 
-FROM  `user`;
+FROM `user`;
 
 -- 4/ supprimer un film
 DELETE FROM `movie` 
@@ -23,7 +23,7 @@ SELECT *
 FROM `movie` 
 ORDER BY `title`;
 
--- 7/ liste des films sortis entre 2018 et 2019 ??????
+-- 7/ liste des films sortis entre 2018 et 2019 
 SELECT * 
 FROM `movie` 
 WHERE `movie`.`release_date` 
