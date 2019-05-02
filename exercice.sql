@@ -72,5 +72,5 @@ LIKE 'l%';
 		RIGHT JOIN `booking` ON `user`.`id` = `booking`.`user_id`;
 	-- D/ FULL JOIN
 		SELECT *
-		FROM `user`
-		FULL JOIN `booking` ON `user`.`id` = `booking`.`user_id`;
+		FROM `session`
+		FULL JOIN `movie` ON `movie_id` = `movie`.`id`;
